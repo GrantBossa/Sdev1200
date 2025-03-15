@@ -8,12 +8,15 @@
 
 
 def recurse_multiply(x, y):
+    # Test for zero values
     if x == 0 or y == 0:
         return 0
+    # Test for non-recursive values
     if x == 1:
         return y
     if y == 1:
         return x
+    # Process recursive values
     if x > 1:
         return y + recurse_multiply(x - 1, y)
 
@@ -24,7 +27,7 @@ def main():
     
     z = recurse_multiply(x, y)
     
-    print(f"The value is {z}")
+    print(f"The value is {z}") non
 
 
 # Call the main function ONLY if the file is being run as a standalone program.
