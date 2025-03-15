@@ -7,7 +7,7 @@
 # Use comments liberally throughout the program.
 
 
-def recurse(x, y):
+def recurse_multiply(x, y):
     if x == 0 or y == 0:
         return 0
     if x == 1:
@@ -15,15 +15,15 @@ def recurse(x, y):
     if y == 1:
         return x
     if x > 1:
-        return y + recurse(x - 1, y)
+        return y + recurse_multiply(x - 1, y)
 
 
 def main():
-    # Initial Variables
-
-    x = int(input("Please enter the X value: "))
-    y = int(input("Please enter the Y value: "))
-    z = recurse(x, y)
+    # Enter x and y values
+    x, y = map(int, input("Please enter the X and Y values in the format x, y: ").split(", "))
+    
+    z = recurse_multiply(x, y)
+    
     print(f"The value is {z}")
 
 

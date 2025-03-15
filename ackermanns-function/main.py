@@ -1,29 +1,39 @@
 #
-# Name
-# Date
+# Grant Bossa
+# March 15, 2025
 # Ackermann's Function Programming Project
 # SDEV 1200
 #
 '''
+# Instructions  
+
+Ackermann's Function is a recursive mathematical algorithm that can be used to test how well a system optimizes its 
+performance of recursion. Design a function `ackermann(m, n)`, which solves Ackermann�s function. Use the following 
+logic in your function:
+
 `If m = 0 then return n + 1 
 If n = 0 then return ackermann(m - 1, 1) 
 Otherwise, return ackermann(m - 1, ackermann(m, n - 1))`
+
+Once you�ve designed your function, test it by calling it with small values for m and n.
 '''
-def A(m,n):
+
+def ackermann(m,n):
     if m == 0 :
         return n + 1 
     if n == 0 :
-        return A(m - 1, 1) 
+        return ackermann(m - 1, 1) 
     else:
-        return A(m - 1, A(m, n - 1))
+        return ackermann(m - 1, ackermann(m, n - 1))
  
 def main():
-    # Initial Variables
+    # error handling is for exiting nicely for recursion errors.
     try :
         m = int(input("Please enter the m value: "))
         n = int(input("Please enter the n value: "))
-        z = A(m, n)
+        z = ackermann(m, n)
         print(f"The Ackermann value is {z}")
+
     except Exception as e:
         print(f" {Exception}: {e}")
         
