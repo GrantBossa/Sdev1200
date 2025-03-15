@@ -27,8 +27,7 @@ def main():
     
     z = recurse_multiply(x, y)
     
-    print(f"The value is {z}") non
-
+    print(f"The value is {z}")
 
 # Call the main function ONLY if the file is being run as a standalone program.
 if __name__ == "__main__":

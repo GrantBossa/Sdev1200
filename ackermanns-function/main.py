@@ -30,12 +30,12 @@ def main():
     # error handling is for exiting nicely for recursion errors.
     try :
         # Input values for function
-        m, n = map(int, input("Please enter the m and nvalues in the format m, n: ").split(", "))
+        m, n = map(int, input("Please enter the m and n values in the format m, n: ").split(", "))
         z = ackermann(m, n)
         print(f"The Ackermann value is {z}")
 
     except Exception as e:
-        print(f" {Exception}: {e}")
+        print(f" {Exception}: {e}") 
         
 # Call the main function ONLY if the file is being run as a standalone program.
 if __name__ == "__main__":
