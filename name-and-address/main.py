@@ -1,6 +1,6 @@
 #
-# Name
-# Date
+# Grant Bossa
+# March 23, 2025
 # Name and Address Programming Project
 # SDEV 1200
 #
@@ -9,14 +9,7 @@
 # Delete unnecessary code.
 
 import tkinter as tk
+import MyGUI
 
-window = tk.Tk()
-window.title("Name and Address")
-window.geometry("300x300")
-
-hello = tk.Label(text="Hello world!")
-hello.pack()
-button = tk.Button(text="Click me!")
-button.pack()
-
-tk.mainloop()
+# Create an instance of the MyGUI class.
+my_gui = MyGUI()
