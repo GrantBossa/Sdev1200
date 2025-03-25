@@ -9,23 +9,13 @@
 # Delete unnecessary code.
 
 import tkinter as tk
-'''
-window = tk.Tk()
-window.title("Name and Address")
-window.geometry("300x300")
-
-hello = tk.Label(text="Hello world!")
-hello.pack()
-button = tk.Button(text="Click me!")
-button.pack()
-
-tk.mainloop()
-'''
 
 class MyGUI:
    def __init__(self):
       # Create the main window.
       self.main_window = tk.Tk()
+      self.main_window.title("Name and Address")
+      self.main_window.geometry("250x100")
 
       # Create StringVar objects to display 
       # name, street, and city-state-zip
@@ -63,30 +53,30 @@ class MyGUI:
       tk.mainloop()
 
    def show(self):
-      self.name_value.set("John Doe")
+      self.name_value.set("Grant Bossa'")
       self.street_value.set("123 Main St")
-      self.city_state_zip_value.set("City, ST 12345")
+      self.city_state_zip_value.set("Green River, WY 12345")
 
+my_gui = MyGUI()
+'''
+   # Create the entry widgets for the StringVar objects.
+   self.name_entry = tk.Entry(self.info_frame, textvariable=self.name_value)
+   self.street_entry = tk.Entry(self.info_frame, textvariable=self.street_value)
+   self.city_state_zip_entry = tk.Entry(self.info_frame, textvariable=self.city_state_zip_value)
 
-   '''
-      # Create the entry widgets for the StringVar objects.
-      self.name_entry = tk.Entry(self.info_frame, textvariable=self.name_value)
-      self.street_entry = tk.Entry(self.info_frame, textvariable=self.street_value)
-      self.city_state_zip_entry = tk.Entry(self.info_frame, textvariable=self.city_state_zip_value)
+   # Pack the entry widgets.
+   self.name_entry.pack(side=tk.LEFT)
+   self.street_entry.pack(side=tk.LEFT))
+   self.street_label.pack(side=tk.LEFT)
+   self.city_state_zip_label.pack(side=tk.LEFT)
 
-      # Pack the entry widgets.
-      self.name_entry.pack(side=tk.LEFT)
-      self.street_entry.pack(side=tk.LEFT))
-      self.street_label.pack(side=tk.LEFT)
-      self.city_state_zip_label.pack(side=tk.LEFT)
+   # Create the entry widgets for the StringVar objects.
+   self.name_entry = tk.Entry(self.info_frame, textvariable=self.name_value)
+   self.street_entry = tk.Entry(self.info_frame, textvariable=self.street_value)
+   self.city_state_zip_entry = tk.Entry(self.info_frame, textvariable=self.city_state_zip_value)
 
-      # Create the entry widgets for the StringVar objects.
-      self.name_entry = tk.Entry(self.info_frame, textvariable=self.name_value)
-      self.street_entry = tk.Entry(self.info_frame, textvariable=self.street_value)
-      self.city_state_zip_entry = tk.Entry(self.info_frame, textvariable=self.city_state_zip_value)
-
-      # Pack the entry widgets.
-      self.name_entry.pack(side=tk.LEFT)
-      self.street_entry.pack(side=tk.LEFT)'
-   '''
+   # Pack the entry widgets.
+   self.name_entry.pack(side=tk.LEFT)
+   self.street_entry.pack(side=tk.LEFT)'
+'''
 

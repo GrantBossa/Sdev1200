@@ -1,6 +1,6 @@
 #
 # Grant Bossa
-# March 23, 2025
+# March 25, 2025
 # Name and Address Programming Project
 # SDEV 1200
 #
@@ -8,31 +8,13 @@
 # The code below was auto-generated.
 # Delete unnecessary code.
 
-import tkinter as tk
+
 import MyGUI
 
-# Create an instance of the MyGUI class.
-my_gui = MyGUI
-window = tk.Tk()
-window.title("Name and Address")
-window.geometry("300x300")
+def main():
+    # Create an instance of the MyGUI class.
+    my_gui = MyGUI()
 
-hello = tk.Label(text="Hello world!")
-hello.pack()
-button = tk.Button(text="Click me!")
-button.pack()
-
-tk.mainloop()
-# tk.mainloop()
-'''
-window = tk.Tk()
-window.title("Name and Address")
-window.geometry("300x300")
-
-hello = tk.Label(text="Hello world!")
-hello.pack()
-button = tk.Button(text="Click me!")
-button.pack()
-
-tk.mainloop()
-'''
+# Call the main function ONLY if the file is being run as a standalone program.
+if __name__ == '__main__' :
+    main()
