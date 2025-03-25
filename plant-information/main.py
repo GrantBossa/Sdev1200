@@ -1,8 +1,6 @@
 #
 # Grant Bossa
 # March 4, 2025
-# Grant Bossa
-# March 4, 2025
 # Plant Information Programming Project
 # SDEV 1200
 #
