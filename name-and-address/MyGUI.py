@@ -57,26 +57,10 @@ class MyGUI:
       self.street_value.set("123 Main St")
       self.city_state_zip_value.set("Green River, WY 12345")
 
-my_gui = MyGUI()
-'''
-   # Create the entry widgets for the StringVar objects.
-   self.name_entry = tk.Entry(self.info_frame, textvariable=self.name_value)
-   self.street_entry = tk.Entry(self.info_frame, textvariable=self.street_value)
-   self.city_state_zip_entry = tk.Entry(self.info_frame, textvariable=self.city_state_zip_value)
+def main():
+    # Create an instance of the MyGUI class.
+    my_gui = MyGUI()
 
-   # Pack the entry widgets.
-   self.name_entry.pack(side=tk.LEFT)
-   self.street_entry.pack(side=tk.LEFT))
-   self.street_label.pack(side=tk.LEFT)
-   self.city_state_zip_label.pack(side=tk.LEFT)
-
-   # Create the entry widgets for the StringVar objects.
-   self.name_entry = tk.Entry(self.info_frame, textvariable=self.name_value)
-   self.street_entry = tk.Entry(self.info_frame, textvariable=self.street_value)
-   self.city_state_zip_entry = tk.Entry(self.info_frame, textvariable=self.city_state_zip_value)
-
-   # Pack the entry widgets.
-   self.name_entry.pack(side=tk.LEFT)
-   self.street_entry.pack(side=tk.LEFT)'
-'''
-
+# Call the main function ONLY if the file is being run as a standalone program.
+if __name__ == '__main__' :
+    main()

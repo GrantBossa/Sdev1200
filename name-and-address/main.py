@@ -13,7 +13,7 @@ import MyGUI
 
 def main():
     # Create an instance of the MyGUI class.
-    my_gui = MyGUI()
+    my_gui = MyGUI.MyGUI()
 
 # Call the main function ONLY if the file is being run as a standalone program.
 if __name__ == '__main__' :
