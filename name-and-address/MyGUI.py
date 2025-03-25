@@ -62,6 +62,12 @@ class MyGUI:
       # Start the main loop.
       tk.mainloop()
 
+   def show(self):
+      self.name_value.set("John Doe")
+      self.street_value.set("123 Main St")
+      self.city_state_zip_value.set("City, ST 12345")
+
+
    '''
       # Create the entry widgets for the StringVar objects.
       self.name_entry = tk.Entry(self.info_frame, textvariable=self.name_value)
@@ -84,7 +90,3 @@ class MyGUI:
       self.street_entry.pack(side=tk.LEFT)'
    '''
 
-   def show(self):
-      self.name_value.set("John Doe")
-      self.street_value.set("123 Main St")
-      self.city_state_zip_value.set("City, ST 12345")
