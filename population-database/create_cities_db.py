@@ -1,9 +1,10 @@
 #
-# Name
-# Date
+# Grant Bossa
+# April 7, 2025
 # Population Database Programming Project
 # SDEV 1200
-#
+# 
+# source: www.pearson.com/gaddis
 
 import sqlite3
 
