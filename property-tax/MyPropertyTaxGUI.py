@@ -28,7 +28,7 @@ class MyGUI:
       self.text_entry_variable = tk.StringVar()
       self.property_value = tk.StringVar()
       self.assessment_value = tk.StringVar()
-500      self.property_tax_value = tk.StringVar()
+      self.property_tax_value = tk.StringVar()
 
       # Create three frames.
       self.entry_frame = tk.Frame(self.main_window)
