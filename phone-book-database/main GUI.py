@@ -5,9 +5,10 @@
 # SDEV 1200
 #
 
+# Instructions
+
 # fmt: off
 '''
-# Instructions
 Write a program that creates a database named `phonebook.db`.
 The database should have a table named `Entries`, with columns
 for a person's name and phone number.
