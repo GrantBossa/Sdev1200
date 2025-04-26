@@ -7,6 +7,11 @@
 
 # fmt: off
 '''
+Update plans:
+    1 menu for all operations
+        select table to do processing on
+        submenues will change with table selected
+        Pass the table parameter to the function
 # Instructions
 * Write a program that performs CRUD operations on the Majors table. 
 Specifically, the program should allow the user to do the following:
@@ -17,7 +22,7 @@ Specifically, the program should allow the user to do the following:
   - ___ Show a list of all majors 
 
 * Write a program that performs CRUD operations on the Departments table. 
-Specifi-cally, the program should allow the user to do the following:
+Specifically, the program should allow the user to do the following:
   - ___ Add a new department 
   - ___ Search for an existing department 
   - ___ Update an existing department 
@@ -41,12 +46,9 @@ and an existing department from the Departments table.
 # fmt: on
 
 import sqlite3
-import crud_departments
-import crud_majors
-import crud_sutdents
 
 choice = 0  # Menu choice
-menu_exit = 4  # Menu exit
+menu_exit = 5  # Menu exit
 
 
 # Main function
@@ -73,12 +75,13 @@ def main():
 # The display_menu function displays a menu.
 def display_menu():
     print("")
-    print("                                    MAIN MENU")
+    print("                                    MENU")
     print("----------------------------------------------------------------------")
-    print("1 - Majors Table Procedures")
-    print("2 - Departments Table Procedures")
-    print("3 - Students Table Procedures")
-    print("4 - EXIT")
+    print("1 - Create new Entry")
+    print("2 - Look up a person's phone number")
+    print("3 - Change a person's phone number")
+    print("4 - Delete specified rows")
+    print("5 - EXIT")
 
 
 # The get_menu_choice function displays the menu and gets the user's choice.
