@@ -43,12 +43,10 @@ and an existing department from the Departments table.
 # fmt: on
 
 import sqlite3
-import crud_departments
-import crud_majors
-import crud_sutdents
+import subprocess
 
 choice = 0  # Menu choice
-menu_exit = 4  # Menu exit
+menu_exit = 5  # Menu exit
 
 
 # Main function
@@ -63,7 +61,7 @@ def main():
     # Get the user's menu choice.
     while choice != menu_exit:
         choice = get_menu_choice()
-        execute_choice(choice, cur)
+        execute_choice(cur, choice)
 
     # Commit the changes.
     conn.commit()
@@ -77,10 +75,11 @@ def display_menu():
     print("")
     print("                                    MAIN MENU")
     print("----------------------------------------------------------------------")
-    print("1 - Majors Table Procedures")
-    print("2 - Departments Table Procedures")
-    print("3 - Students Table Procedures")
-    print("4 - EXIT")
+    print("1 - Majors Table Menu")
+    print("2 - Departments Table Menu")
+    print("3 - Students Table Menu")
+    print("4 - Create/Recreate Student Info DB")    
+    print("5 - EXIT")
 
 
 # The get_menu_choice function displays the menu and gets the user's choice.
@@ -94,69 +93,25 @@ def get_menu_choice():
 
 
 # Perform the action that the user selected.
-def execute_choice(choice, cur):
-    if choice == 1:  # Create new Entry in the `Entries` table
-        create_new_entry(cur)
-    elif choice == 2:  # Look up a person's phone number
-        display_entries(cur)
-    elif choice == 3:  # Change a person's phone number
-        update_phone_number(cur)
-    elif choice == 4:  # Delete specified rows.
-        delete_entry(cur)
-
-# The create_new_entry function adds input data into the Entries table.
-def create_new_entry(cur):
-    print("")
-    print("Please add New Entry Information in the format LastName, First Name")
-    print("")
-    new_name = input('Please enter the new Name: ')
-    new_phone_number = input("Please enter the 10 digit Phone Number without formatting: ")
-
-    cur.execute('''INSERT INTO Entries (PersonName, PhoneNumber)
-        VALUES (?, ?)''', (new_name, new_phone_number))
-    
-# The display_entries function displays the contents of the Entries table.
-def display_entries(cur):
-    print("")
-
-    print('Alphabetical Contents of phonebook.db/Entries table:')
-    cur.execute('SELECT * FROM Entries ORDER BY PersonName')
-    results = cur.fetchall()
-    print(f"{'Entry ID':9} {'Person':^20} {'Phone Number':>17}")
-    print(f"{'---------':9} {'--------------------':20} {'-----------------':17}")
-    for row in results:
-        entry_id=row[0]
-        person = row[1]
-        phone = row[2]
-        if len(phone) == 10:
-            phone = f"({phone[:3]}) {phone[3:6]}-{phone[6:]}"
-        elif len(phone) == 7:
-            phone = f"{phone[:3]}-{phone[3:]}"
+def execute_choice(cur, choice=0):
+    if choice == 1:  # Go To Majors Table Menu
+        subprocess.run(
+            ["python", "crud_majors.py"], check=True)
+    elif choice == 2:  # Go To Departments Table Menu
+        subprocess.run(
+            ["python", "crud_departments.py"], check=True)
+    elif choice == 3:  # Go To Students Table Menu
+        subprocess.run(
+            ["python", "crud_students.py"], check=True)
+    elif choice == 4:  # Create/Recreate Student Info DB
+        print("!!!THIS WILL DELETE THE CURRENT DATABASE IF IT EXISTS!!!")
+        verify_choice = input("Do you want to continue? Y/N ")
+        if verify_choice.lower == "y":
+            subprocess.run(
+                ["python", "create_student_info_db.py"], check=True)   
+            print("New database created")   
         else:
-            "Invalid phone number format"         
-        print(f'{entry_id:^9} {person:<20} {phone:>17}')
-
-
-def update_phone_number(cur):
-    print("")
-
-    print("Which of the following numbers do you wish to change?")
-    display_entries(cur)
-    print("")
-    select_id = input("Please enter the Entry ID number of the phone number you wish to change: ")
-    new_phone_number = input("Please enter the 10 digit Phone Number without formatting: ")
-
-    cur.execute('''UPDATE Entries SET PhoneNumber = (?) WHERE EntryID = (?)''', (new_phone_number, select_id))
-
-def delete_entry(cur):
-    print("")
-
-    print("Which of the following records do you wish to delete?")
-    display_entries(cur)
-
-    select_id = input("Please enter the ID number of the record you wish to delete: ")
-
-    cur.execute('''DELETE FROM Entries WHERE EntryID = (?)''', (select_id))
+            print("Process Aborted, Database not created")  
 
 # Call the main function ONLY if the file is being run as a standalone program.
 if __name__ == "__main__":

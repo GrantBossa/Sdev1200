@@ -105,8 +105,10 @@ def add_students_table(cur):
     cur.execute(
         """CREATE TABLE Students (StudentID INTEGER PRIMARY KEY NOT NULL,
                                         Name TEXT,
-                                        MajorID INTEGER REFERENCES Majors(MajorID),
-                                        DeptID INTEGER REFERENCES Departments(DeptID)
+                                        MajorID INTEGER,
+                                        DeptID INTEGER,
+                                        FOREIGN KEY (MajorID) REFERENCES Majors(MajorID),
+                                        FOREIGN KEY (DeptID) REFERENCES Departments(DeptID)
                 )"""
     )
 

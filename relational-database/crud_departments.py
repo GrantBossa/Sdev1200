@@ -43,7 +43,7 @@ def main():
     # Get the user's menu choice.
     while choice != menu_exit:
         choice = get_menu_choice()
-        execute_choice(choice, cur)
+        execute_choice(cur, choice)
 
     # Commit the changes.
     conn.commit()
@@ -76,7 +76,7 @@ def get_menu_choice():
 
 
 # Perform the action that the user selected.
-def execute_choice(choice, cur):
+def execute_choice(cur, choice=0):
     if choice == 1:  # Add a new department
         create_new_department(cur)
     elif choice == 2:  # Search for an existing department
@@ -95,15 +95,14 @@ def create_new_department(cur):
     print("Please add New Department Information")
     print("")
     new_name = input('Please enter the Name of the new Department: ')
-    
-    cur.execute('''INSERT INTO Departments (Name) 
+    new_name = new_name.strip()
+    if new_name != "":
+        cur.execute('''INSERT INTO Departments (Name) 
                     VALUES (?)''', (new_name,))
     
-    # Add new record verification here
-    # select new_name
-    # if found - print Added, else print not added
-    cur.execute('''SELECT * FROM Departments WHERE Name = (?)''', (new_name,))
-    display_departments(cur, 1)
+        # if found - print Added, else print not added
+        cur.execute('''SELECT * FROM Departments WHERE Name = (?)''', (new_name,))
+        display_departments(cur, 1)
 
     
 # the find_major function searches for a specific department in the Departments table
@@ -123,11 +122,14 @@ def update_department(cur):
     display_departments(cur, 5)
     print("")
     select_id = input("Please enter the DeptID number of the Department you wish to change: ")
-    new_name = input("Please enter the new name for the Department: ")
-
-    cur.execute('''UPDATE Departments SET name = (?) WHERE DeptID = (?)''', (new_name, select_id))
-    cur.execute('''SELECT * FROM Departments WHERE DeptID = (?)''', (select_id,))
-    display_departments(cur, 3)
+    select_id = select_id.strip()                  
+    if select_id !="":
+        new_name = input("Please enter the new name for the Department: ")
+        new_name = new_name.strip()                 
+        if new_name != "":
+            cur.execute('''UPDATE Departments SET name = (?) WHERE DeptID = (?)''', (new_name, select_id))
+            cur.execute('''SELECT * FROM Departments WHERE DeptID = (?)''', (select_id,))
+            display_departments(cur, 3)
 
 def delete_department(cur):
     print("")
@@ -135,11 +137,26 @@ def delete_department(cur):
     print("Which of the following Departments do you wish to delete?")
     display_departments(cur, 5)
 
-    select_id = input("Please enter the ID number of the record you wish to delete: ")
-
-    cur.execute('''DELETE FROM Departments WHERE DeptID = (?)''', (select_id))
-    cur.execute('''SELECT * FROM Departments WHERE DeptID = (?)''', (select_id,))
-    display_departments(cur, 4)
+    verify_choice = 0
+    while verify_choice == 0:
+        select_id = input("Please enter the ID number of the record you wish to delete: ")
+        select_id = select_id.strip()
+        if select_id != "":
+            # If select_id is being used in Students Table, message that it cannot be deleted as it is in use
+            cur.execute('''SELECT DeptID FROM Students WHERE DeptID = (?)''', (select_id,))
+            results = cur.fetchone
+            
+            # If DeptID is not used in Students Table, Okay to delete
+            if results == None: 
+                cur.execute('''DELETE FROM Departments WHERE DeptID = (?)''', (select_id))
+                cur.execute('''SELECT * FROM Departments WHERE DeptID = (?)''', (select_id,))
+                display_departments(cur, 4)
+                verify_choice = 1
+            # If DeptID is used in Students Table, message that it cannot be deleted 
+            else:
+                print(f'\033[1mDepartment ID cannot be deleted because it is in use in the Students Table.\033[0m')
+        else:
+            verify_choice=1
 
 # The display_departments function displays the contents of the Departments table.
 def display_departments(cur, value=5):
@@ -170,6 +187,18 @@ def display_departments(cur, value=5):
         dept_id=row[0]
         name = row[1]
         print(f'{dept_id:^9} {name:<20}')
+
+
+# Verify that the value is a valid DepartmentID
+def verify_department(cur, value):
+    cur.execute('''SELECT * FROM Departments WHERE DeptID = (?)''', (value,))
+    results = cur.fetchone()
+    print(f"value {value}, {results}, {results[0]} - {results[1]}")
+    if results == None:
+        return False
+    else:
+        return True
+
 
 # Call the main function ONLY if the file is being run as a standalone program.
 if __name__ == "__main__":

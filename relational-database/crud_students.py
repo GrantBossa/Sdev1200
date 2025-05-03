@@ -26,6 +26,8 @@ and an existing department from the Departments table.
 # fmt: on
 
 import sqlite3
+import crud_majors as crud_m
+import crud_departments as crud_d
 
 choice = 0  # Menu choice
 menu_exit = 6  # Menu exit
@@ -43,7 +45,7 @@ def main():
     # Get the user's menu choice.
     while choice != menu_exit:
         choice = get_menu_choice()
-        execute_choice(choice, cur)
+        execute_choice(cur, choice)
 
     # Commit the changes.
     conn.commit()
@@ -76,7 +78,7 @@ def get_menu_choice():
 
 
 # Perform the action that the user selected.
-def execute_choice(choice, cur):
+def execute_choice(cur, choice=0):
     if choice == 1:  # Add a new student
         create_new_student(cur)
     elif choice == 2:  # Search for an existing student
@@ -93,18 +95,18 @@ def create_new_student(cur):
     print("")
     print("Please add New Student Information")
     print("")
-    new_name = input('Please enter the Name of the new Student: ')
-    major_id = input("Please enter the Students Major ID ")
-    dept_id = input("Please enter the Students Department ID ")
-    
-    cur.execute('''INSERT INTO Students (Name, MajorID, DeptID) 
-                    VALUES (?, ?, ?)''', (new_name, major_id, dept_id,))
-    
-    # Add new record verification here
-    # select new_name
-    # if found - print Added, else print not added
-    cur.execute('''SELECT * FROM Students WHERE Name = (?)''', (new_name,))
-    display_students(cur, 1)
+    new_name = input('Please enter the new Student Name (Last, First): ')
+    new_name = new_name.strip()
+    if new_name !="":
+        major_id = enter_valid_majorid(cur)
+        dept_id = enter_valid_departmentid(cur)
+            
+        cur.execute('''INSERT INTO Students (Name, MajorID, DeptID) 
+                        VALUES (?, ?, ?)''', (new_name, major_id, dept_id,))
+        
+        # if found - print Added, else print not added
+        cur.execute('''SELECT * FROM Students WHERE Name = (?)''', (new_name,))
+        display_students(cur, 1)
 
     
 # the find_student function searches for a specific student in the Students table
@@ -124,17 +126,21 @@ def update_student(cur):
     display_students(cur, 5)
     print("")
     select_id = input("Please enter the StudentID number of the Student you wish to change: ")
-    new_name = input("Please enter the new name for the Student: ")
-    major_id = input("Please enter the Students Major ID ")
-    dept_id = input("Please enter the Students Department ID ")
+    select_id = select_id.strip()
+    if select_id != "":
+        new_name = input("Please enter the new name for the Student: ")
+        new_name = new_name.strip()
+        if new_name !="":
+            major_id = enter_valid_majorid(cur)
+            dept_id = enter_valid_departmentid(cur)
 
-    cur.execute('''UPDATE Students 
-                SET name = (?), 
-                MajorID = (?), 
-                DeptID = (?) 
-                WHERE StudentID = (?)''', (new_name, major_id, dept_id, select_id))
-    cur.execute('''SELECT * FROM Students WHERE StudentID = (?)''', (select_id,))
-    display_students(cur, 3)
+            cur.execute('''UPDATE Students 
+                        SET name = (?), 
+                        MajorID = (?), 
+                        DeptID = (?) 
+                        WHERE StudentID = (?)''', (new_name, major_id, dept_id, select_id))
+            cur.execute('''SELECT * FROM Students WHERE StudentID = (?)''', (select_id,))
+            display_students(cur, 3)
 
 def delete_student(cur):
     print("")
@@ -143,10 +149,11 @@ def delete_student(cur):
     display_students(cur, 5)
 
     select_id = input("Please enter the ID number of the record you wish to delete: ")
-
-    cur.execute('''DELETE FROM Students WHERE StudentID = (?)''', (select_id))
-    cur.execute('''SELECT * FROM Students WHERE StudentID = (?)''', (select_id,))
-    display_students(cur, 4)
+    select_id = select_id.strip()
+    if select_id !="":
+        cur.execute('''DELETE FROM Students WHERE StudentID = (?)''', (select_id))
+        cur.execute('''SELECT * FROM Students WHERE StudentID = (?)''', (select_id,))
+        display_students(cur, 4)
 
 # The display_students function displays the contents of the Students table.
 def display_students(cur, value=5):
@@ -180,6 +187,28 @@ def display_students(cur, value=5):
         deptID = row[3]
         print(f'{student_id:^9} {name:<20}{majorID:^9} {deptID:^9}')
 
+def enter_valid_majorid(cur):
+    
+    # Display Majors available
+    crud_m.display_majors(cur, 5)
+    verify_choice = 0
+
+    while verify_choice == 0:
+        major_id = input("Please enter a valid Major ID: ")
+        if crud_m.verify_major(cur, major_id): 
+            verify_choice = 1
+    return major_id
+
+def enter_valid_departmentid(cur):
+    
+    # Display Departments available
+    crud_d.display_departments(cur, 5)
+    verify_choice = 0
+    while verify_choice == 0:
+        dept_id = input("Please enter a valid Department ID: ")
+        if crud_d.verify_department(cur, dept_id): 
+            verify_choice = 1
+    return dept_id    
 
 # Call the main function ONLY if the file is being run as a standalone program.
 if __name__ == "__main__":
