@@ -15,7 +15,7 @@ for a person's name and phone number.
 Next, write a CRUD application that lets the user
 add rows to the `Entries` table,
 look up a person's phone number,
-change a person's phone number,
+change a person's phone  number,
 and delete specified rows.
 '''
 # fmt: on
@@ -55,7 +55,7 @@ class MyGUI():
       def show_selection():
          choice = int(selected_option.get())
          print("Selected option:", choice)
-         Lb1.delete(0, tk.END)
+         listbox.delete(0, tk.END)
          if choice == 1:  # Create new Entry in the `Entries` table
             create_new_entry(cur)
          elif choice == 2:  # Look up a person's phone number
@@ -64,12 +64,15 @@ class MyGUI():
             update_phone_number(cur)
          elif choice == 4:  # Delete specified rows.
             delete_entry(cur)    
+         elif choice == 5:  # Show table rows.
+            display_entries(cur)  
 
       # Create radio buttons
       radio_button1 = tk.Radiobutton(self.main_window, text="1 - Create new Entry", variable=selected_option, value="1", command=show_selection)
       radio_button2 = tk.Radiobutton(self.main_window, text="2 - Look up a person's phone number", variable=selected_option, value="2", command=show_selection)
       radio_button3 = tk.Radiobutton(self.main_window, text="3 - Change a person's phone number", variable=selected_option, value="3", command=show_selection)
       radio_button4 = tk.Radiobutton(self.main_window, text="4 - Delete specified rows", variable=selected_option, value="4", command=show_selection)
+      radio_button5 = tk.Radiobutton(self.main_window, text="5 - Show table rows", variable=selected_option, value="5", command=show_selection)
 
 
       # Place radio buttons in the window
@@ -77,39 +80,40 @@ class MyGUI():
       radio_button2.pack(anchor = 'w')
       radio_button3.pack(anchor = 'w')
       radio_button4.pack(anchor = 'w')
+      radio_button5.pack(anchor = 'w')
       
-
-
       # Create two frames.
       self.button_frame = tk.Frame(self.main_window)
       self.info_frame = tk.Frame(self.main_window)
 
-      var2 = tk.StringVar()
-      label2 = tk.Label( self.info_frame, textvariable=var2)
+      label_output_title = tk.StringVar()
+      label2 = tk.Label( self.info_frame, textvariable=label_output_title)
+
+      listbox = tk.Listbox(self.info_frame, width=46)
 
 
-      Lb1 = tk.Listbox(self.info_frame, width=46)
 
+      input_box = tk.Entry(window, width=30)
+      input_box.pack(pady=10)
 
-      
+      submit_button = tk.Button(window, text="Submit", command=submit_text)
+      submit_button.pack()
 
 
       # Create StringVar objects to display 
       # name, street, and city-state-zip
       self.name_value = tk.StringVar()
-      self.street_value = tk.StringVar()
+      self.phone_value = tk.StringVar()
       self.city_state_zip_value = tk.StringVar()
 
       # Create the label widgets associated with the StringVar objects.
       self.name_label = tk.Label(self.info_frame, textvariable=self.name_value)
-      self.street_label = tk.Label(self.info_frame, textvariable=self.street_value)
-      self.city_state_zip_label = tk.Label(self.info_frame, textvariable=self.city_state_zip_value)
-
+      self.phone_label = tk.Label(self.info_frame, textvariable=self.phone_value)
+      
       # Pack the labels.
       self.name_label.pack()
-      self.street_label.pack()
-      self.city_state_zip_label.pack()
-
+      self.phone_label.pack()
+      
       # Create the button widgets.
       self.show_info_button = tk.Button(self.button_frame, text = "Show Info", command = self.show)
       self.quit_button = tk.Button(self.button_frame, text = "Quit", command = self.main_window.destroy)
@@ -141,7 +145,7 @@ class MyGUI():
          cur.execute('SELECT * FROM Entries ORDER BY PersonName')
          results = cur.fetchall()
 
-         var2.set(f"Alphabetical Listing:\n" +
+         label_output_title.set(f"Alphabetical Listing:\n" +
                   f"{'Entry ID':9} {'Person':^20} {'Phone Number':>17}" )
          label2.pack(anchor = 'w')
          print(f"{'Entry ID':9} {'Person':^20} {'Phone Number':>17}")
@@ -157,10 +161,10 @@ class MyGUI():
             else:
                   "Invalid phone number format" 
             print(f'{entry_id:^9} {person:<20} {phone:>17}')        
-            Lb1.config(selectmode='multiple')
-            Lb1.insert(entry_id, f'{entry_id:^9} {person:<20} {phone:<17}' )
+            listbox.config(selectmode='multiple')
+            listbox.insert(entry_id, f'{entry_id:^9} {person:<20} {phone:>17}' )
             
-         Lb1.pack()
+         listbox.pack()
 
       def update_phone_number(cur):
          print("")
@@ -192,7 +196,7 @@ class MyGUI():
 
    def show(self):
       self.name_value.set("Grant Bossa'")
-      self.street_value.set("123 Main St")
+      self.phone_value.set("123 Main St")
       self.city_state_zip_value.set("Green River, WY 12345")
 
 # Main function
