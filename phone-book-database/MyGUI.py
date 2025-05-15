@@ -93,10 +93,10 @@ class MyGUI():
 
 
 
-      input_box = tk.Entry(window, width=30)
+      input_box = tk.Entry(self.info_frame, width=30)
       input_box.pack(pady=10)
 
-      submit_button = tk.Button(window, text="Submit", command=submit_text)
+      submit_button = tk.Button(self.info_frame, text="Submit", command=submit_text())
       submit_button.pack()
 
 
@@ -187,7 +187,8 @@ class MyGUI():
 
          cur.execute('''DELETE FROM Entries WHERE EntryID = (?)''', (select_id))
 
-
+      def submit_text():
+         print("")
 
       # Start the main loop.
       tk.mainloop()
