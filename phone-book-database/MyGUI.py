@@ -56,6 +56,7 @@ class MyGUI():
          choice = int(selected_option.get())
          print("Selected option:", choice)
          listbox.delete(0, tk.END)
+         listbox.delete(0, tk.END)
          if choice == 1:  # Create new Entry in the `Entries` table
             create_new_entry(cur)
          elif choice == 2:  # Look up a person's phone number
@@ -66,12 +67,15 @@ class MyGUI():
             delete_entry(cur)    
          elif choice == 5:  # Show table rows.
             display_entries(cur)  
+         elif choice == 5:  # Show table rows.
+            display_entries(cur)  
 
       # Create radio buttons
       radio_button1 = tk.Radiobutton(self.main_window, text="1 - Create new Entry", variable=selected_option, value="1", command=show_selection)
       radio_button2 = tk.Radiobutton(self.main_window, text="2 - Look up a person's phone number", variable=selected_option, value="2", command=show_selection)
       radio_button3 = tk.Radiobutton(self.main_window, text="3 - Change a person's phone number", variable=selected_option, value="3", command=show_selection)
       radio_button4 = tk.Radiobutton(self.main_window, text="4 - Delete specified rows", variable=selected_option, value="4", command=show_selection)
+      radio_button5 = tk.Radiobutton(self.main_window, text="5 - Show table rows", variable=selected_option, value="5", command=show_selection)
       radio_button5 = tk.Radiobutton(self.main_window, text="5 - Show table rows", variable=selected_option, value="5", command=show_selection)
 
 
@@ -82,13 +86,18 @@ class MyGUI():
       radio_button4.pack(anchor = 'w')
       radio_button5.pack(anchor = 'w')
       
+      radio_button5.pack(anchor = 'w')
+      
       # Create two frames.
       self.button_frame = tk.Frame(self.main_window)
       self.info_frame = tk.Frame(self.main_window)
 
       label_output_title = tk.StringVar()
       label2 = tk.Label( self.info_frame, textvariable=label_output_title)
+      label_output_title = tk.StringVar()
+      label2 = tk.Label( self.info_frame, textvariable=label_output_title)
 
+      listbox = tk.Listbox(self.info_frame, width=46)
       listbox = tk.Listbox(self.info_frame, width=46)
 
 
@@ -104,14 +113,19 @@ class MyGUI():
       # name, street, and city-state-zip
       self.name_value = tk.StringVar()
       self.phone_value = tk.StringVar()
+      self.phone_value = tk.StringVar()
       self.city_state_zip_value = tk.StringVar()
 
       # Create the label widgets associated with the StringVar objects.
       self.name_label = tk.Label(self.info_frame, textvariable=self.name_value)
       self.phone_label = tk.Label(self.info_frame, textvariable=self.phone_value)
       
+      self.phone_label = tk.Label(self.info_frame, textvariable=self.phone_value)
+      
       # Pack the labels.
       self.name_label.pack()
+      self.phone_label.pack()
+      
       self.phone_label.pack()
       
       # Create the button widgets.
@@ -146,6 +160,7 @@ class MyGUI():
          results = cur.fetchall()
 
          label_output_title.set(f"Alphabetical Listing:\n" +
+         label_output_title.set(f"Alphabetical Listing:\n" +
                   f"{'Entry ID':9} {'Person':^20} {'Phone Number':>17}" )
          label2.pack(anchor = 'w')
          print(f"{'Entry ID':9} {'Person':^20} {'Phone Number':>17}")
@@ -163,7 +178,10 @@ class MyGUI():
             print(f'{entry_id:^9} {person:<20} {phone:>17}')        
             listbox.config(selectmode='multiple')
             listbox.insert(entry_id, f'{entry_id:^9} {person:<20} {phone:>17}' )
+            listbox.config(selectmode='multiple')
+            listbox.insert(entry_id, f'{entry_id:^9} {person:<20} {phone:>17}' )
             
+         listbox.pack()
          listbox.pack()
 
       def update_phone_number(cur):
@@ -197,6 +215,7 @@ class MyGUI():
 
    def show(self):
       self.name_value.set("Grant Bossa'")
+      self.phone_value.set("123 Main St")
       self.phone_value.set("123 Main St")
       self.city_state_zip_value.set("Green River, WY 12345")
 
